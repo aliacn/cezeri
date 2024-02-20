@@ -12,7 +12,6 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 from matplotlib.patches import Rectangle
 
-
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # Tarayıcı başlığını belirleme
@@ -83,13 +82,16 @@ def train_svm(X_train, y_train, kernel='rbf', C=1.0, gamma='scale'):
     return svm_model
 
 # SVM modeli için GridSearchCV ile en iyi parametreleri bulma
-def find_best_svm_params(X_train, y_train):
-    param_grid = {'kernel': ['linear', 'poly', 'rbf', 'sigmoid'], 'C': [0.1, 1, 10, 100], 'gamma': ['scale', 'auto']}
-    svm_model = SVC()
+def find_best_svm_params(X_train, y_train, kernel='rbf', C=1.0, gamma='scale'):
+    param_grid = {'gamma': ['scale', 'auto']}
+    svm_model = SVC(kernel=kernel, C=C)
     grid_search = GridSearchCV(svm_model, param_grid, cv=5)
     grid_search.fit(X_train, y_train)
     best_params = grid_search.best_params_
+    best_params['kernel'] = kernel
+    best_params['C'] = C
     return best_params
+
 
 # En iyi parametrelerle SVM modelini eğitme
 def train_svm_with_best_params(X_train, y_train, best_params):
@@ -160,7 +162,7 @@ def evaluate_model(y_true, y_pred):
     accuracy, precision, recall, f1, confusion = calculate_metrics(y_true, y_pred)
     show_metrics(accuracy, precision, recall, f1, confusion)
 
-#//////////////////////////////////////////////////////
+#///////////////////////////////////////////////////////
 
 # Streamlit uygulaması
 def main():
