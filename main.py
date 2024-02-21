@@ -162,7 +162,7 @@ def evaluate_model(y_true, y_pred):
     accuracy, precision, recall, f1, confusion = calculate_metrics(y_true, y_pred)
     show_metrics(accuracy, precision, recall, f1, confusion)
 
-#///////////////////////////////////////////////////////
+#/////////////////////////////////////////////////////
 
 # Streamlit uygulaması
 def main():
